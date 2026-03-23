@@ -8,6 +8,13 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Sistema Hidropónico",
   description: "Sistema avanzado de monitoreo y gestión para cultivos hidropónicos.",
+  manifest: "/manifest.webmanifest",
+  themeColor: "#22c55e",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Sistema Hidropónico",
+  },
 };
 
 export default function RootLayout({

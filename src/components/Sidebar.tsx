@@ -50,8 +50,8 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const pathname = usePathname();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const [businessName, setBusinessName] = useState('Hidroponía Jepelacio');
-  const [logo, setLogo] = useState<string | null>('/logo-jepelacio.png');
+  const [businessName, setBusinessName] = useState('');
+  const [logo, setLogo] = useState<string | null>(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -111,7 +111,7 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
           <div className="flex flex-col">
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400 dark:text-neutral-500 mb-0.5">Vivero Profesional</span>
             <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-br from-primary-600 to-green-500 dark:from-primary-400 dark:to-green-400 leading-none">
-              {businessName}
+              {businessName || 'Sistema'}
             </span>
           </div>
         </div>
