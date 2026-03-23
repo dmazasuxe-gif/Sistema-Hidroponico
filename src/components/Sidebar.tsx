@@ -18,7 +18,8 @@ import {
   Zap,
   Activity,
   Cpu,
-  Clock
+  Clock,
+  Camera
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx, type ClassValue } from 'clsx';
@@ -36,6 +37,7 @@ const navItems = [
   { name: 'Clientes', href: '/dashboard/clients', icon: User },
   { name: 'Gastos', href: '/dashboard/expenses', icon: Receipt },
   { name: 'Automatización', href: '/dashboard/automation', icon: Zap },
+  { name: 'Cámaras Seguridad', href: '/dashboard/cameras', icon: Camera },
   { name: 'Empresa', href: '/dashboard/company', icon: Settings2 },
 ];
 
