@@ -66,12 +66,12 @@ export default function LoginPage() {
                 <img 
                   src={welcomeImage} 
                   alt="Welcome" 
-                  className="w-full h-full object-contain filter drop-shadow-[0_0_100px_rgba(34,197,94,0.5)]" 
+                  className="w-full h-full object-contain filter drop-shadow-[0_0_100px_rgba(34,197,94,0.3)]" 
                 />
               ) : (
-                <div className="flex flex-col items-center opacity-40">
-                  <Droplets className="w-20 h-20 text-primary-500 mb-4" />
-                  <p className="font-black text-lg tracking-[0.5em]">HIDROPONÍA</p>
+                <div className="flex flex-col items-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/logo-jepelacio.png" alt="Hidroponía Jepelacio" className="w-full h-full object-contain filter drop-shadow-[0_0_80px_rgba(34,197,94,0.4)]" />
                 </div>
               )}
            </motion.div>

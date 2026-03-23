@@ -50,8 +50,8 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const pathname = usePathname();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const [businessName, setBusinessName] = useState('HydroSmart');
-  const [logo, setLogo] = useState<string | null>(null);
+  const [businessName, setBusinessName] = useState('Hidroponía Jepelacio');
+  const [logo, setLogo] = useState<string | null>('/logo-jepelacio.png');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -103,14 +103,17 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
           <div className="w-12 h-12 rounded-2xl bg-primary-500 overflow-hidden flex items-center justify-center text-white shadow-xl shadow-primary-500/20 shrink-0">
             {logo ? (
                // eslint-disable-next-line @next/next/no-img-element
-               <img src={logo} alt="Logo" className="w-full h-full object-cover" />
+               <img src={logo} alt="Logo" className="w-full h-full object-contain p-1" />
             ) : (
                <Droplets className="w-8 h-8" />
             )}
           </div>
-          <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-br from-primary-600 to-green-500 dark:from-primary-400 dark:to-green-400 leading-tight">
-            {businessName}
-          </span>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400 dark:text-neutral-500 mb-0.5">Vivero Profesional</span>
+            <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-br from-primary-600 to-green-500 dark:from-primary-400 dark:to-green-400 leading-none">
+              {businessName}
+            </span>
+          </div>
         </div>
 
         {/* Navigation Section */}

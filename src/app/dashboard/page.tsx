@@ -44,7 +44,7 @@ export default function DashboardPage() {
   const [netProfit, setNetProfit] = useState(0);
   const [dailyTasks, setDailyTasks] = useState<DashboardTask[]>([]);
   const [harvestHistory, setHarvestHistory] = useState<HarvestData[]>([]);
-  
+
   // QR Payment States
   const [yapeQr, setYapeQr] = useState<string | null>(null);
   const [plinQr, setPlinQr] = useState<string | null>(null);
@@ -139,21 +139,21 @@ export default function DashboardPage() {
           <p className="text-neutral-500 mt-2 font-medium">Control unificado de producción y finanzas.</p>
         </div>
         <div className="flex items-center gap-3">
-           <div className="bg-white/50 dark:bg-neutral-900/50 backdrop-blur-xl p-2 rounded-[24px] border border-neutral-200 dark:border-neutral-800 flex items-center gap-2 shadow-sm">
-              <span className="text-[10px] font-black uppercase text-neutral-400 px-3 tracking-widest">Pagos Rápidos:</span>
-              <button 
-                onClick={() => setActiveQr('yape')}
-                className="px-4 py-2 bg-[#6b21a8] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:scale-105 transition-all"
-              >
-                Yape
-              </button>
-              <button 
-                onClick={() => setActiveQr('plin')}
-                className="px-4 py-2 bg-[#0ea5e9] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-500/30 hover:scale-105 transition-all"
-              >
-                Plin
-              </button>
-           </div>
+          <div className="bg-white/50 dark:bg-neutral-900/50 backdrop-blur-xl p-2 rounded-[24px] border border-neutral-200 dark:border-neutral-800 flex items-center gap-2 shadow-sm">
+            <span className="text-[10px] font-black uppercase text-neutral-400 px-3 tracking-widest">Pagos Rápidos:</span>
+            <button
+              onClick={() => setActiveQr('yape')}
+              className="px-4 py-2 bg-[#6b21a8] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:scale-105 transition-all"
+            >
+              Yape
+            </button>
+            <button
+              onClick={() => setActiveQr('plin')}
+              className="px-4 py-2 bg-[#0ea5e9] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-500/30 hover:scale-105 transition-all"
+            >
+              Plin
+            </button>
+          </div>
         </div>
       </div>
 
@@ -178,8 +178,8 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h3 className="text-2xl font-black flex items-center gap-2 font-black">
-                   <TrendingUp className="w-6 h-6 text-primary-500" />
-                   Rendimiento de Cosecha
+                  <TrendingUp className="w-6 h-6 text-primary-500" />
+                  Rendimiento de Cosecha
                 </h3>
                 <p className="text-sm text-neutral-500 mt-1">Comparativa histórica de plantas sanas vs mermas por lote.</p>
               </div>
@@ -288,47 +288,47 @@ export default function DashboardPage() {
 
       {/* QR MODAL */}
       <AnimatePresence>
-         {activeQr && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-               <motion.div 
-                 initial={{ opacity: 0 }} 
-                 animate={{ opacity: 1 }} 
-                 exit={{ opacity: 0 }} 
-                 onClick={() => setActiveQr(null)} 
-                 className="absolute inset-0 bg-neutral-900/90 backdrop-blur-xl" 
-               />
-               <motion.div 
-                 initial={{ opacity: 0, scale: 0.9, y: 40 }} 
-                 animate={{ opacity: 1, scale: 1, y: 0 }} 
-                 exit={{ opacity: 0, scale: 0.9, y: 40 }} 
-                 className="relative w-full max-w-sm bg-white dark:bg-neutral-900 rounded-[56px] p-10 shadow-2xl overflow-hidden border border-white/10"
-               >
-                  <div className="flex justify-between items-center mb-8">
-                     <div className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white ${activeQr === 'yape' ? 'bg-[#6b21a8]' : 'bg-[#0ea5e9]'}`}>
-                        QR {activeQr}
-                     </div>
-                     <button onClick={() => setActiveQr(null)} className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-all">
-                        <X className="w-5 h-5 text-neutral-400" />
-                     </button>
-                  </div>
+        {activeQr && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveQr(null)}
+              className="absolute inset-0 bg-neutral-900/90 backdrop-blur-xl"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 40 }}
+              className="relative w-full max-w-sm bg-white dark:bg-neutral-900 rounded-[56px] p-10 shadow-2xl overflow-hidden border border-white/10"
+            >
+              <div className="flex justify-between items-center mb-8">
+                <div className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white ${activeQr === 'yape' ? 'bg-[#6b21a8]' : 'bg-[#0ea5e9]'}`}>
+                  QR {activeQr}
+                </div>
+                <button onClick={() => setActiveQr(null)} className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-all">
+                  <X className="w-5 h-5 text-neutral-400" />
+                </button>
+              </div>
 
-                  <div className="aspect-square bg-neutral-50 dark:bg-neutral-800/50 rounded-[40px] flex items-center justify-center overflow-hidden border border-neutral-100 dark:border-neutral-800 shadow-inner">
-                     {(activeQr === 'yape' ? yapeQr : plinQr) ? (
-                        <img src={activeQr === 'yape' ? yapeQr! : plinQr!} alt={`QR ${activeQr}`} className="w-full h-full object-contain p-4" />
-                     ) : (
-                        <div className="text-center p-8">
-                           <QrCode className="w-12 h-12 text-neutral-300 mx-auto mb-4" />
-                           <p className="text-xs font-bold text-neutral-400">No se ha subido el QR de {activeQr} en el menú Empresa.</p>
-                        </div>
-                     )}
+              <div className="aspect-square bg-neutral-50 dark:bg-neutral-800/50 rounded-[40px] flex items-center justify-center overflow-hidden border border-neutral-100 dark:border-neutral-800 shadow-inner">
+                {(activeQr === 'yape' ? yapeQr : plinQr) ? (
+                  <img src={activeQr === 'yape' ? yapeQr! : plinQr!} alt={`QR ${activeQr}`} className="w-full h-full object-contain p-4" />
+                ) : (
+                  <div className="text-center p-8">
+                    <QrCode className="w-12 h-12 text-neutral-300 mx-auto mb-4" />
+                    <p className="text-xs font-bold text-neutral-400">No se ha subido el QR de {activeQr} en el menú Empresa.</p>
                   </div>
+                )}
+              </div>
 
-                  <div className="mt-8 text-center pt-4 border-t border-neutral-100 dark:border-neutral-800">
-                     <p className="text-xs font-black text-neutral-400 tracking-widest uppercase">Escanear para pago</p>
-                  </div>
-               </motion.div>
-            </div>
-         )}
+              <div className="mt-8 text-center pt-4 border-t border-neutral-100 dark:border-neutral-800">
+                <p className="text-xs font-black text-neutral-400 tracking-widest uppercase">Escanear para pago</p>
+              </div>
+            </motion.div>
+          </div>
+        )}
       </AnimatePresence>
     </div>
   );
