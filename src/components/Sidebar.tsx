@@ -100,14 +100,14 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
       <div className="pointer-events-auto flex flex-col h-full bg-white dark:bg-neutral-900">
         {/* Logo Section */}
         <div className="p-8 pb-4 flex flex-col items-start space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-primary-500 overflow-hidden flex items-center justify-center text-white shadow-xl shadow-primary-500/20 shrink-0">
-            {logo ? (
-               // eslint-disable-next-line @next/next/no-img-element
-               <img src={logo} alt="Logo" className="w-full h-full object-contain p-1" />
-            ) : (
-               <Droplets className="w-8 h-8" />
-            )}
-          </div>
+          {logo ? (
+             // eslint-disable-next-line @next/next/no-img-element
+             <img src={logo} alt="Logo" className="h-20 md:h-24 w-auto max-w-[200px] object-contain shrink-0 drop-shadow-xl transform transition-transform duration-300 hover:scale-105" />
+          ) : (
+             <div className="w-16 h-16 rounded-2xl bg-primary-500 flex items-center justify-center text-white shadow-xl shadow-primary-500/20 shrink-0">
+               <Droplets className="w-10 h-10" />
+             </div>
+          )}
           <div className="flex flex-col">
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400 dark:text-neutral-500 mb-0.5">Vivero Profesional</span>
             <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-br from-primary-600 to-green-500 dark:from-primary-400 dark:to-green-400 leading-none">
