@@ -6,11 +6,8 @@ import {
   Plus, 
   Trash2, 
   Maximize2, 
-  Minimize2, 
   X, 
-  Wifi, 
-  WifiOff,
-  Settings2,
+  Wifi,
   Video,
   Eye
 } from 'lucide-react';
@@ -58,140 +55,73 @@ export default function CamerasPage() {
     }
   };
 
+  // 🔥 FUNCIÓN CLAVE (USA PROXY)
+  const getCameraUrl = (url: string) => {
+    return `/api/camera-proxy?url=${encodeURIComponent(url)}`;
+  };
+
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-20">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <h1 className="text-4xl font-black tracking-tight flex items-center gap-3">
-            <Camera className="w-10 h-10 text-red-500" />
-            Cámaras de Seguridad
-          </h1>
-          <p className="text-neutral-500 mt-2 font-medium">Monitorea tu vivero hidropónico en tiempo real desde cualquier dispositivo.</p>
-        </div>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="flex items-center justify-center space-x-2 px-6 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold shadow-lg shadow-red-500/20 transition-all"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Agregar Cámara</span>
+
+      <div className="flex justify-between">
+        <h1 className="text-3xl font-black flex items-center gap-2">
+          <Camera /> Cámaras
+        </h1>
+        <button onClick={() => setIsModalOpen(true)} className="bg-red-600 text-white px-4 py-2 rounded-xl">
+          <Plus /> Agregar
         </button>
       </div>
 
-      {/* Info Banner */}
-      <div className="p-6 rounded-[32px] bg-neutral-900 text-white border border-neutral-800 flex flex-col md:flex-row md:items-center gap-6">
-        <div className="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center shrink-0">
-          <Video className="w-6 h-6 text-red-400" />
-        </div>
-        <div className="flex-1">
-          <p className="font-black text-sm mb-1">¿Cómo conectar tus cámaras IP?</p>
-          <p className="text-xs text-neutral-400 leading-relaxed max-w-2xl">
-            Ingresa la <strong className="text-white">URL de acceso web</strong> de tu cámara IP. 
-            La mayoría de cámaras tienen una dirección como <code className="bg-neutral-800 px-2 py-0.5 rounded text-red-400">http://192.168.1.XX:puerto</code> o un enlace de nube del fabricante. 
-            Consulta el manual de tu cámara para obtener la URL de streaming (MJPEG/HTTP).
-          </p>
-        </div>
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {cameras.map((cam) => (
+          <div key={cam.id} className="bg-black rounded-2xl overflow-hidden relative">
+
+            {/* ✅ VIDEO CORRECTO */}
+            <img
+              src={getCameraUrl(cam.url)}
+              className="w-full h-60 object-cover"
+              alt={cam.name}
+              onError={(e) => {
+                e.currentTarget.src = "/no-signal.png";
+              }}
+            />
+
+            <div className="absolute top-2 left-2 bg-red-600 px-2 py-1 text-xs text-white rounded">
+              EN VIVO
+            </div>
+
+            <div className="p-4 bg-white">
+              <h3 className="font-bold">{cam.name}</h3>
+              <p className="text-xs text-gray-500">{cam.location}</p>
+
+              <div className="flex justify-between mt-2">
+                <button onClick={() => setFullscreenCam(cam)}>
+                  <Eye />
+                </button>
+                <button onClick={() => handleDeleteCamera(cam.id)}>
+                  <Trash2 />
+                </button>
+              </div>
+            </div>
+
+          </div>
+        ))}
       </div>
 
-      {/* Camera Grid */}
-      {cameras.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          <AnimatePresence>
-            {cameras.map((cam) => (
-              <motion.div
-                key={cam.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="rounded-[40px] bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-2xl transition-all group"
-              >
-                {/* Camera Feed */}
-                <div className="relative aspect-video bg-neutral-950 overflow-hidden">
-                  <iframe
-                    src={cam.url}
-                    className="w-full h-full border-0"
-                    title={`Cámara: ${cam.name}`}
-                    allow="autoplay; fullscreen"
-                    sandbox="allow-same-origin allow-scripts"
-                  />
-                  
-                  {/* Overlay Controls */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {/* Top Bar */}
-                    <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-                      <div className="flex items-center gap-2 px-3 py-1.5 bg-red-600 rounded-xl">
-                        <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                        <span className="text-[10px] font-black uppercase text-white tracking-widest">EN VIVO</span>
-                      </div>
-                      <button
-                        onClick={() => handleDeleteCamera(cam.id)}
-                        className="p-2 bg-black/40 hover:bg-red-600 text-white rounded-xl transition-all"
-                        title="Eliminar cámara"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    {/* Bottom Bar */}
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                      <div>
-                        <p className="text-white font-black text-sm">{cam.name}</p>
-                        <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest">{cam.location}</p>
-                      </div>
-                      <button
-                        onClick={() => setFullscreenCam(cam)}
-                        className="p-3 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-2xl transition-all"
-                        title="Pantalla completa"
-                      >
-                        <Maximize2 className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Camera Info */}
-                <div className="p-6 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center">
-                      <Wifi className="w-5 h-5 text-green-500" />
-                    </div>
-                    <div>
-                      <p className="font-black text-sm">{cam.name}</p>
-                      <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">{cam.location}</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setFullscreenCam(cam)}
-                    className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-xl transition-all"
-                    title="Ver en pantalla completa"
-                  >
-                    <Eye className="w-5 h-5 text-neutral-400" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-      ) : (
-        <div className="p-20 rounded-[56px] bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-center">
-          <div className="w-20 h-20 rounded-[28px] bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mx-auto mb-6">
-            <Camera className="w-10 h-10 text-neutral-300" />
-          </div>
-          <h3 className="text-2xl font-black mb-2">Sin cámaras configuradas</h3>
-          <p className="text-neutral-500 text-sm max-w-md mx-auto mb-8">
-            Agrega tus cámaras IP para monitorear tu vivero hidropónico en tiempo real. 
-            Necesitarás la URL de acceso web de cada cámara.
-          </p>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold shadow-lg shadow-red-500/20 transition-all"
-          >
-            Configurar Primera Cámara
+      {/* MODAL FULLSCREEN */}
+      {fullscreenCam && (
+        <div className="fixed inset-0 bg-black z-50 flex flex-col">
+          <button onClick={() => setFullscreenCam(null)} className="text-white p-4">
+            <X />
           </button>
+
+          <img
+            src={getCameraUrl(fullscreenCam.url)}
+            className="w-full h-full object-contain"
+          />
         </div>
       )}
-
-      {/* Add Camera Modal */}
+    {/* MODAL AGREGAR CÁMARA */}
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
@@ -203,7 +133,7 @@ export default function CamerasPage() {
                 </div>
                 <div>
                   <h3 className="text-2xl font-black">Nueva Cámara</h3>
-                  <p className="text-xs text-neutral-500 font-bold">Configura una cámara IP de tu vivero</p>
+                  <p className="text-xs text-neutral-500 font-bold">Añade la URL de video web</p>
                 </div>
               </div>
 
@@ -213,33 +143,30 @@ export default function CamerasPage() {
                   <input
                     required
                     type="text"
-                    placeholder="Ej: Entrada Principal"
-                    title="Nombre de la cámara"
+                    placeholder="Ej: Invernadero 1"
                     className="w-full bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none font-bold"
                     value={cameraForm.name}
                     onChange={(e) => setCameraForm({ ...cameraForm, name: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest mb-2 block">URL de la Cámara (Stream)</label>
+                  <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest mb-2 block">URL (Stream)</label>
                   <input
                     required
                     type="url"
                     placeholder="http://192.168.1.100:8080/video"
-                    title="URL del stream de la cámara"
                     className="w-full bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none font-bold font-mono text-sm text-red-600 dark:text-red-400"
                     value={cameraForm.url}
                     onChange={(e) => setCameraForm({ ...cameraForm, url: e.target.value })}
                   />
-                  <p className="text-[10px] text-neutral-400 mt-2 pl-2">Ingresa la URL completa de acceso web de tu cámara IP (HTTP o HTTPS).</p>
+                  <p className="text-[10px] text-neutral-400 mt-2 pl-2">Ingresa la URL completa o ruta en red (HTTP o HTTPS).</p>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest mb-2 block">Ubicación / Zona</label>
+                  <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest mb-2 block">Ubicación / Sector</label>
                   <input
                     required
                     type="text"
-                    placeholder="Ej: Zona de cultivo NFT"
-                    title="Ubicación de la cámara"
+                    placeholder="Ej: Cultivos DWC"
                     className="w-full bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none font-bold"
                     value={cameraForm.location}
                     onChange={(e) => setCameraForm({ ...cameraForm, location: e.target.value })}
@@ -255,44 +182,6 @@ export default function CamerasPage() {
         )}
       </AnimatePresence>
 
-      {/* Fullscreen Camera Modal */}
-      <AnimatePresence>
-        {fullscreenCam && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full h-full flex flex-col">
-              {/* Fullscreen Header */}
-              <div className="absolute top-0 inset-x-0 z-50 p-6 flex items-center justify-between bg-gradient-to-b from-black/80 to-transparent">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2 px-3 py-1.5 bg-red-600 rounded-xl">
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                    <span className="text-[10px] font-black uppercase text-white tracking-widest">EN VIVO</span>
-                  </div>
-                  <div>
-                    <p className="text-white font-black">{fullscreenCam.name}</p>
-                    <p className="text-white/50 text-[10px] font-bold uppercase tracking-widest">{fullscreenCam.location}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setFullscreenCam(null)}
-                  className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-2xl transition-all"
-                  title="Cerrar pantalla completa"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* Fullscreen Feed */}
-              <iframe
-                src={fullscreenCam.url}
-                className="w-full h-full border-0"
-                title={`Cámara Completa: ${fullscreenCam.name}`}
-                allow="autoplay; fullscreen"
-              />
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
