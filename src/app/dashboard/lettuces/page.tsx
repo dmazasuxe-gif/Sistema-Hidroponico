@@ -386,6 +386,115 @@ export default function LettucesControlPage() {
         </div>
       </div>
 
+      {/* Renderizado de Camas NFT Visuales e Interactivas */}
+      <div className="p-8 rounded-[40px] bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm mt-8 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-6 relative z-10">
+          <div>
+            <h3 className="text-2xl md:text-3xl font-black flex items-center gap-3">
+              <Sprout className="w-8 h-8 text-emerald-500" />
+              Granja NFT en Tiempo Real
+            </h3>
+            <p className="text-neutral-500 font-medium text-sm mt-2 max-w-lg">
+              Visualización interactiva de tu plantación. Cada punto verde es una lechuga sana, los amarillos representan tus mermas computadas. Capacidad diseñada por cama: 1,000 huecos.
+            </p>
+          </div>
+          
+          {/* Controles para Añadir/Quitar Camas Rápidamente */}
+          <div className="flex items-center gap-2 bg-neutral-50 dark:bg-neutral-800/80 p-2 rounded-[24px] border border-neutral-200 dark:border-neutral-700 shadow-inner shrink-0">
+            <button onClick={() => updateBeds(-1)} className="p-4 bg-white dark:bg-neutral-900 rounded-[18px] hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-300 transition-colors shadow-sm hover:shadow-md transform active:scale-95" title="Remover cama" aria-label="Remover cama"><Minus className="w-5 h-5" /></button>
+            <div className="flex flex-col items-center px-6">
+              <span className="text-3xl font-black text-emerald-600 dark:text-emerald-400 leading-none">{totalBeds}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mt-1">Camas Físicas</span>
+            </div>
+            <button onClick={() => updateBeds(1)} className="p-4 bg-white dark:bg-neutral-900 rounded-[18px] hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-300 transition-colors shadow-sm hover:shadow-md transform active:scale-95" title="Sumar cama" aria-label="Sumar cama"><Plus className="w-5 h-5" /></button>
+          </div>
+        </div>
+
+        {/* Grid de Plantillas Visuales */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 relative z-10">
+          {Array.from({ length: totalBeds }).map((_, i) => {
+             const batch = activeBatchesList[i]; // Asigna lote según el orden
+             const maxCapacity = 1000;
+             const good = batch ? batch.goodCondition : 0;
+             const bad = batch ? batch.badCondition : 0;
+             
+             // Mapeo preciso de cada hueco en la cama NFT
+             const slots: string[] = [];
+             for (let s = 0; s < maxCapacity; s++) {
+               if (s < good) slots.push('good');
+               else if (s < good + bad) slots.push('bad');
+               else slots.push('empty');
+             }
+
+             return (
+               <div key={i} className="flex flex-col items-center bg-white/50 dark:bg-neutral-950/20 p-5 sm:p-8 rounded-[40px] border border-neutral-200 dark:border-neutral-800 shadow-[0_20px_50px_rgba(0,0,0,0.05)] w-full relative group transition-all duration-500 hover:shadow-[0_20px_50px_rgba(16,185,129,0.1)] hover:border-emerald-500/30">
+                 {/* Header de Cama Visual */}
+                 <div className="flex justify-between items-center w-full mb-8 border-b border-neutral-200 dark:border-neutral-800 pb-5">
+                   <div>
+                     <h4 className="font-black text-2xl text-neutral-800 dark:text-neutral-100 flex items-center gap-2">
+                        Módulo NFT #{i + 1}
+                     </h4>
+                     <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 mt-1">
+                       {batch ? batch.plantName : 'Sistema en Vacio Total'}
+                     </p>
+                   </div>
+                   
+                   {batch ? (
+                     <div className="flex gap-3 sm:gap-6 bg-neutral-100 dark:bg-neutral-900 p-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-inner">
+                       <div className="text-center px-4 border-r border-neutral-200 dark:border-neutral-800">
+                         <p className="text-2xl font-black text-emerald-500">{good}</p>
+                         <p className="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Saludables</p>
+                       </div>
+                       <div className="text-center px-4">
+                         <p className="text-2xl font-black text-yellow-500 animate-pulse">{bad}</p>
+                         <p className="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Merma</p>
+                       </div>
+                     </div>
+                   ) : (
+                     <div className="px-5 py-3 bg-neutral-100 dark:bg-neutral-900 rounded-2xl text-[10px] uppercase font-black text-neutral-500 tracking-widest shadow-inner border border-neutral-200/50 dark:border-neutral-800">
+                       A la espera de siembra
+                     </div>
+                   )}
+                 </div>
+
+                 {/* Representación top-down de Tubos NFT */}
+                 <div className="flex gap-[3px] sm:gap-1.5 lg:gap-3 w-full justify-between items-start bg-neutral-100 dark:bg-neutral-900 p-3 sm:p-5 lg:p-6 rounded-[32px] shadow-[inset_0_15px_30px_rgba(0,0,0,0.06)] border border-neutral-200/50 dark:border-neutral-800 overflow-x-auto custom-scrollbar">
+                   {/* Construyendo los 10 tubos PVC */}
+                   {Array.from({ length: 10 }).map((_, pipeIdx) => {
+                     const pipeSlots = slots.slice(pipeIdx * 100, (pipeIdx + 1) * 100); // 100 huecos por tubo = 1000 total
+                     return (
+                       <div key={pipeIdx} className="flex flex-col gap-[3px] items-center bg-white dark:bg-neutral-800 w-5 sm:w-6 lg:w-10 pt-3 pb-6 rounded-t-full rounded-b-3xl shadow-lg border-[0.5px] border-neutral-200 dark:border-neutral-700 relative flex-shrink-0 group-hover:-translate-y-1 transition-transform duration-500" style={{ transitionDelay: `${pipeIdx * 50}ms` }}>
+                         
+                         {/* Efecto de Agua fluyendo al final del tubo (animado si hay plantas) */}
+                         <div className={`absolute bottom-0 w-full rounded-b-3xl overflow-hidden ${batch ? 'h-8 bg-cyan-500/30 border-b-[3px] border-cyan-400/80 shadow-[0_5px_15px_rgba(6,182,212,0.5)]' : 'h-4 bg-neutral-300 dark:bg-neutral-700'}`}>
+                           {batch && <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-cyan-400 via-transparent to-transparent opacity-80 animate-pulse" />}
+                         </div>
+
+                         {/* Renderizando las Lechugas (100 nodos por tubo) */}
+                         {pipeSlots.map((slot, idx) => (
+                           <div 
+                             key={idx} 
+                             className={`w-1.5 h-1.5 sm:w-2 sm:h-2 lg:w-3.5 lg:h-3.5 rounded-full transition-all duration-700 z-10 ${
+                               slot === 'good' ? "bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.5)] scale-110 border-0" : 
+                               slot === 'bad' ? "bg-yellow-400 shadow-[0_0_12px_rgba(250,204,21,0.8)] animate-pulse border-0 scale-110" : 
+                               "bg-neutral-200 dark:bg-neutral-900/50 shadow-inner border border-neutral-300 dark:border-neutral-800 scale-90"
+                             }`}
+                             title={slot === 'good' ? 'Lechuga Sana' : slot === 'bad' ? 'Merma (Cuarentena)' : 'Hueco Disponible'}
+                           />
+                         ))}
+                       </div>
+                     );
+                   })}
+                 </div>
+                 {/* Estructura Base de Acero del NFT */}
+                 <div className="w-[90%] h-6 bg-gradient-to-b from-neutral-300 to-neutral-400 dark:from-neutral-800 dark:to-neutral-950 rounded-b-2xl mt-4 shadow-[0_20px_40px_rgba(0,0,0,0.1)] border-b-2 border-neutral-400 dark:border-black" />
+               </div>
+             );
+          })}
+        </div>
+      </div>
+
       {/* Merma Modal */}
       <AnimatePresence>
         {mermaModalOpen && (
