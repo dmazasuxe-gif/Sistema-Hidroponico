@@ -83,7 +83,7 @@ export default function CamerasPage() {
               className="w-full h-60 object-cover"
               alt={cam.name}
               onError={(e) => {
-                e.currentTarget.src = "/no-signal.png";
+                e.currentTarget.src = "/apple-icon.png";
               }}
             />
 
