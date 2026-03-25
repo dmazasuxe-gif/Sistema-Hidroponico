@@ -19,6 +19,7 @@
     "next": "15.3.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-qr-code": "^2.0.18",
     "recharts": "^2.15.0",
     "tailwind-merge": "^2.5.5"
   },

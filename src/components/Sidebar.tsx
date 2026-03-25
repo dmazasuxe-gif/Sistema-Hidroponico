@@ -19,7 +19,8 @@ import {
   Activity,
   Cpu,
   Clock,
-  Camera
+  Camera,
+  QrCode
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx, type ClassValue } from 'clsx';
@@ -39,6 +40,7 @@ const navItems = [
   { name: 'Gastos', href: '/dashboard/expenses', icon: Receipt },
   { name: 'Automatización', href: '/dashboard/automation', icon: Zap },
   { name: 'Nutrición', href: '/dashboard/nutrition', icon: Droplets },
+  { name: 'Etiquetado QR', href: '/dashboard/labels', icon: QrCode },
   { name: 'Empresa', href: '/dashboard/company', icon: Settings2 },
 ];
 

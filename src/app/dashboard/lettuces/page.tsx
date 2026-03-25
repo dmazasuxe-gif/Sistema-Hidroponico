@@ -507,9 +507,9 @@ export default function LettucesControlPage() {
                      {/* Contenedor Flex en Fila para los tubos verticales */}
                      <div className="flex flex-row gap-8 w-max mx-auto bg-white/40 dark:bg-neutral-900/40 p-12 rounded-[60px] border border-white/50 dark:border-neutral-800 shadow-[0_40px_100px_rgba(0,0,0,0.2)] backdrop-blur-3xl pb-20">
                        
-                       {/* 10 Tubos Verticales de 60 huecos */}
-                       {Array.from({ length: 10 }).map((_, pipeIdx) => {
-                         const pipeSlots = slots.slice(pipeIdx * 60, (pipeIdx + 1) * 60); // 60 plantas verticales por tubo
+                       {/* 5 Tubos Verticales de 120 huecos */}
+                       {Array.from({ length: 5 }).map((_, pipeIdx) => {
+                         const pipeSlots = slots.slice(pipeIdx * 120, (pipeIdx + 1) * 120); // 120 plantas verticales por tubo
                          return (
                            <div key={pipeIdx} className="flex flex-col items-center bg-gradient-to-r from-white via-neutral-100 to-neutral-300 dark:from-neutral-800 dark:via-neutral-900 dark:to-black w-24 py-8 rounded-full shadow-[0_20px_40px_rgba(0,0,0,0.5)] border border-white/50 dark:border-neutral-700 relative group overflow-visible gap-4 flex-nowrap shrink-0 hover:-translate-y-2 transition-transform duration-500">
                              
