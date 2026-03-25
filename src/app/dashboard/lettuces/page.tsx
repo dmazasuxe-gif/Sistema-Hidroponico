@@ -144,6 +144,9 @@ export default function LettucesControlPage() {
 
   const handleNewBatchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const diff = editingBatch ? newBatchForm.totalPlanted - editingBatch.totalPlanted : 0;
+    const newGoodCondition = editingBatch ? Math.max(0, editingBatch.goodCondition + diff) : newBatchForm.totalPlanted;
+
     const newBatch: LettuceBatch = {
       id: editingBatch ? editingBatch.id : Math.random().toString(),
       plantName: newBatchForm.plantName,
@@ -152,7 +155,7 @@ export default function LettucesControlPage() {
       estimatedHarvestDate: newBatchForm.estimatedHarvestDate,
       systemLocation: newBatchForm.systemLocation,
       totalPlanted: newBatchForm.totalPlanted,
-      goodCondition: editingBatch ? editingBatch.goodCondition : newBatchForm.totalPlanted,
+      goodCondition: newGoodCondition,
       badCondition: editingBatch ? editingBatch.badCondition : 0,
       status: 'Creciendo'
     };
@@ -447,14 +450,15 @@ export default function LettucesControlPage() {
             {(() => {
                const i = fullscreenBedIndex;
                const batch = activeBatchesList[i];
-               const maxCapacity = 1000;
+               const maxCapacity = 600;
                const good = batch ? batch.goodCondition : 0;
                const bad = batch ? batch.badCondition : 0;
                
                const slots: string[] = [];
                for (let s = 0; s < maxCapacity; s++) {
-                 if (s < good) slots.push('good');
-                 else if (s < good + bad) slots.push('bad');
+                 // Insertar mermas (bad) PRIMERO para que aparezcan arriba del tubo
+                 if (s < bad) slots.push('bad');
+                 else if (s < good + bad) slots.push('good');
                  else slots.push('empty');
                }
 
@@ -495,26 +499,21 @@ export default function LettucesControlPage() {
                      </div>
                    </div>
 
-                   {/* Canvas 3D de Tubos NFT */}
+                   {/* Canvas 3D de Tubos NFT Verticales */}
                    <div className="flex-1 overflow-auto p-12 bg-gradient-to-br from-neutral-200 to-neutral-300 dark:from-neutral-900 dark:to-black relative perspective-[1200px] custom-scrollbar">
                      {/* Estructura Base Simulada (Fondo) */}
-                     <div className="absolute inset-x-20 top-1/2 transform -translate-y-1/2 h-[800px] border-[10px] border-emerald-900/10 rounded-[100px] pointer-events-none skew-x-12" />
+                     <div className="absolute inset-x-20 top-1/2 transform -translate-y-1/2 h-[80%] border-[10px] border-emerald-900/10 rounded-[100px] pointer-events-none skew-x-12" />
 
-                     {/* Contenedor Flex para los tubos largos */}
-                     <div className="flex flex-col gap-8 w-max mx-auto bg-white/40 dark:bg-neutral-900/40 p-12 rounded-[60px] border border-white/50 dark:border-neutral-800 shadow-[0_40px_100px_rgba(0,0,0,0.2)] backdrop-blur-3xl pb-20">
+                     {/* Contenedor Flex en Fila para los tubos verticales */}
+                     <div className="flex flex-row gap-8 w-max mx-auto bg-white/40 dark:bg-neutral-900/40 p-12 rounded-[60px] border border-white/50 dark:border-neutral-800 shadow-[0_40px_100px_rgba(0,0,0,0.2)] backdrop-blur-3xl pb-20">
                        
-                       {/* 10 Tubos Horizontales */}
+                       {/* 10 Tubos Verticales de 60 huecos */}
                        {Array.from({ length: 10 }).map((_, pipeIdx) => {
-                         const pipeSlots = slots.slice(pipeIdx * 100, (pipeIdx + 1) * 100); // 100 plantas horizontales
+                         const pipeSlots = slots.slice(pipeIdx * 60, (pipeIdx + 1) * 60); // 60 plantas verticales por tubo
                          return (
-                           <div key={pipeIdx} className="flex items-center bg-gradient-to-b from-white via-neutral-100 to-neutral-300 dark:from-neutral-800 dark:via-neutral-900 dark:to-black h-24 px-6 rounded-full shadow-[0_30px_40px_rgba(0,0,0,0.4)] border border-white/50 dark:border-neutral-700 relative group overflow-visible gap-4 flex-nowrap shrink-0">
+                           <div key={pipeIdx} className="flex flex-col items-center bg-gradient-to-r from-white via-neutral-100 to-neutral-300 dark:from-neutral-800 dark:via-neutral-900 dark:to-black w-24 py-8 rounded-full shadow-[0_20px_40px_rgba(0,0,0,0.5)] border border-white/50 dark:border-neutral-700 relative group overflow-visible gap-4 flex-nowrap shrink-0 hover:-translate-y-2 transition-transform duration-500">
                              
-                             {/* Efecto de Agua lateral y motor */}
-                             <div className="absolute inset-y-0 left-[-2px] w-12 bg-cyan-400/30 rounded-l-full border-l-[3px] border-cyan-400 z-0">
-                               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-transparent to-transparent opacity-50 animate-pulse" />
-                             </div>
-                             
-                             {/* Agujeros con plantas (100 en fila) */}
+                             {/* Agujeros con plantas (60 en columna, de arriba a abajo) */}
                              {pipeSlots.map((slot, idx) => (
                                <div key={idx} className="relative z-10 flex-shrink-0 w-14 h-14 flex items-center justify-center perspective-[800px]">
                                  {/* Agujero Negro del Tubo */}
@@ -523,7 +522,7 @@ export default function LettucesControlPage() {
                                  {/* La Lechuga 3D (Emoji Render) */}
                                  {slot !== 'empty' && (
                                    <div 
-                                     className={`relative z-10 text-[3.2rem] leading-none select-none transition-transform duration-500 hover:scale-[1.4] hover:-translate-y-6 cursor-crosshair transform rotate-x-[-20deg] ${
+                                     className={`relative z-10 text-[3.2rem] leading-none select-none transition-transform duration-500 hover:scale-[1.4] hover:-translate-y-4 cursor-crosshair transform rotate-x-[-20deg] ${
                                        slot === 'bad' ? 'filter hue-rotate-[-45deg] saturate-200 brightness-90 animate-pulse drop-shadow-[0_15px_15px_rgba(250,204,21,0.6)]' : 'drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]'
                                      }`}
                                      title={slot === 'good' ? 'Lechuga Viva y Sana' : 'Merma Detectada'}
@@ -534,8 +533,10 @@ export default function LettucesControlPage() {
                                </div>
                              ))}
 
-                             {/* Fin del tubo */}
-                             <div className="absolute inset-y-0 right-[-2px] w-8 bg-neutral-300 dark:bg-neutral-950 rounded-r-full border-r-[3px] border-neutral-400 dark:border-black z-0" />
+                             {/* Efecto de Agua lateral y motor en la parte Infeiror del tubo */}
+                             <div className="absolute inset-x-0 bottom-[-2px] h-16 bg-cyan-400/30 rounded-b-full border-b-[4px] border-cyan-400 z-0 overflow-hidden">
+                               <div className="absolute inset-0 bg-gradient-to-t from-cyan-400 via-transparent to-transparent opacity-80 animate-pulse" />
+                             </div>
                            </div>
                          );
                        })}
