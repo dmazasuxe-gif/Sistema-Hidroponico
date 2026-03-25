@@ -34,10 +34,11 @@ const navItems = [
   { name: 'Control Vegetales', href: '/dashboard/lettuces', icon: Sprout },
   { name: 'Insumos (Compras)', href: '/dashboard/inventory', icon: Package },
   { name: 'Ventas', href: '/dashboard/sales', icon: DollarSign },
+  { name: 'Bouchers', href: '/dashboard/vouchers', icon: Camera },
   { name: 'Clientes', href: '/dashboard/clients', icon: User },
   { name: 'Gastos', href: '/dashboard/expenses', icon: Receipt },
   { name: 'Automatización', href: '/dashboard/automation', icon: Zap },
-  { name: 'Bouchers', href: '/dashboard/vouchers', icon: Camera },
+  { name: 'Nutrición', href: '/dashboard/nutrition', icon: Droplets },
   { name: 'Empresa', href: '/dashboard/company', icon: Settings2 },
 ];
 
