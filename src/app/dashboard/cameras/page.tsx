@@ -55,9 +55,10 @@ export default function CamerasPage() {
     }
   };
 
-  // 🔥 FUNCIÓN CLAVE (USA PROXY)
+  // Las cámaras locales (192.168.x.x) no pueden pasar por el Proxy de Vercel porque Vercel está en la nube.
+  // Por lo tanto, el navegador web del usuario debe conectarse directamente usando la URL.
   const getCameraUrl = (url: string) => {
-    return `/api/camera-proxy?url=${encodeURIComponent(url)}`;
+    return url;
   };
 
   return (
