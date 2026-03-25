@@ -12,7 +12,8 @@ import {
   Link as LinkIcon,
   X,
   ExternalLink,
-  Download
+  Download,
+  Printer
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import QRCode from 'react-qr-code';
@@ -203,10 +204,7 @@ export default function LabelsAndQRPage() {
                       <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block flex items-center gap-2"><MapPin className="w-4 h-4"/> Origen de la Finca</label>
                       <input type="text" aria-label="Origen de la Finca" title="Origen de la Finca" value={qrConfig.origin} onChange={(e) => setQrConfig({...qrConfig, origin: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
                     </div>
-                    <div>
-                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block flex items-center gap-2"><LinkIcon className="w-4 h-4"/> Enlace del Video (YouTube, TikTok, etc.)</label>
-                      <input type="text" aria-label="Enlace del Video" title="Enlace del Video" value={qrConfig.videoUrl} onChange={(e) => setQrConfig({...qrConfig, videoUrl: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Ej. https://youtube.com/watch?v=..." />
-                    </div>
+                    {/* Removed video section */}
                  </div>
 
                  {/* Resultado QR Box */}
@@ -218,6 +216,23 @@ export default function LabelsAndQRPage() {
                     <div className="mt-6 flex flex-col w-full gap-3">
                       <button onClick={downloadQR} className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-2">
                         <Download className="w-5 h-5"/> Descargar QR (.PNG)
+                      </button>
+                      <button onClick={() => {
+                        const w = window.open();
+                        if(w) {
+                           w.document.write(`
+                             <html>
+                               <head><title>Imprimir QR</title></head>
+                               <body style="display:flex; justify-content:center; align-items:center; height:100vh;">
+                                 <img src="data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(new XMLSerializer().serializeToString(document.getElementById('QRCodeImage')!))))}" style="width:300px; height:300px;" />
+                                 <script>setTimeout(() => { window.print(); window.close(); }, 500);</script>
+                               </body>
+                             </html>
+                           `);
+                           w.document.close();
+                        }
+                      }} className="w-full py-4 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-800/50 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 rounded-2xl font-black shadow-sm transition-all flex justify-center items-center gap-2">
+                        <Printer className="w-5 h-5"/> Imprimir QR Directo
                       </button>
                       <a href={getPublicUrl()} target="_blank" rel="noopener noreferrer" className="w-full py-4 bg-white dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50 rounded-2xl font-bold transition-all flex justify-center items-center gap-2">
                         <ExternalLink className="w-5 h-5"/> Abrir Link del Cliente
