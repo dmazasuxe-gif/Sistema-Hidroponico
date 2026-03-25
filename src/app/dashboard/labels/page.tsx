@@ -44,6 +44,7 @@ export default function LabelsAndQRPage() {
     days: '',
     origin: 'Granja Local, Ciudad',
     videoUrl: '',
+    company: ''
   });
 
   useEffect(() => {
@@ -52,6 +53,14 @@ export default function LabelsAndQRPage() {
       const all: LettuceBatch[] = JSON.parse(savedBatches);
       const harvested = all.filter(b => b.status === 'Cosechado');
       setHarvestedBatches(harvested.reverse()); // Show newest first
+    }
+    
+    // Grabbing the dynamic business name
+    if (typeof window !== 'undefined') {
+       const bName = localStorage.getItem('businessName');
+       if (bName) {
+         setQrConfig(prev => ({ ...prev, company: bName }));
+       }
     }
   }, []);
 
@@ -98,12 +107,29 @@ export default function LabelsAndQRPage() {
     const ctx = canvas.getContext("2d");
     const img = new Image();
     img.onload = () => {
-      canvas.width = img.width + 40;
-      canvas.height = img.height + 40;
+      canvas.width = 380;
+      canvas.height = 500;
       if(ctx) {
+        // Draw Background
         ctx.fillStyle = "white";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 20, 20);
+        
+        // Draw Company Name
+        ctx.fillStyle = "#065f46";
+        ctx.font = "bold 28px Inter, Arial, sans-serif";
+        ctx.textAlign = "center";
+        const companyName = qrConfig.company || "HidroJepe";
+        ctx.fillText(companyName.toUpperCase(), canvas.width/2, 60);
+
+        // Draw QR
+        const qrSize = 250;
+        ctx.drawImage(img, (canvas.width - qrSize)/2, 100, qrSize, qrSize);
+
+        // Draw Escaneame
+        ctx.fillStyle = "#10b981";
+        ctx.font = "italic bold 45px Georgia, serif";
+        ctx.fillText("¡Escanéame!", canvas.width/2, canvas.height - 50);
+
         const pngFile = canvas.toDataURL("image/png");
         const downloadLink = document.createElement("a");
         downloadLink.download = `QR_${selectedBatch?.plantName.replace(/\s+/g, '_')}_${selectedBatch?.harvestDate}.png`;
@@ -210,22 +236,34 @@ export default function LabelsAndQRPage() {
                  {/* Resultado QR Box */}
                  <div className="mt-10 p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-3xl border border-emerald-100 dark:border-emerald-900/30 flex flex-col items-center justify-center text-center">
                     <p className="text-sm font-black uppercase text-emerald-600 dark:text-emerald-400 mb-6 tracking-widest">Tu Código QR de Cosecha</p>
-                    <div className="bg-white p-4 rounded-3xl shadow-lg border-4 border-white">
-                      <QRCode id="QRCodeImage" value={getPublicUrl()} size={180} fgColor="#065f46" />
+                    
+                    {/* El Contenedor Imprimible UI */}
+                    <div className="bg-white p-6 sm:p-8 rounded-[40px] shadow-xl border-4 border-white flex flex-col items-center justify-center w-full max-w-[320px]">
+                      <h4 className="text-2xl font-black text-emerald-900 mb-6 text-center uppercase tracking-widest leading-tight w-full truncate">{qrConfig.company || "HidroJepe"}</h4>
+                      <QRCode id="QRCodeImage" value={getPublicUrl()} size={200} fgColor="#065f46" />
+                      <p className="mt-6 text-4xl font-bold text-emerald-500 [font-family:Georgia,cursive] italic">¡Escanéame!</p>
                     </div>
-                    <div className="mt-6 flex flex-col w-full gap-3">
-                      <button onClick={downloadQR} className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-2">
+
+                    <div className="mt-8 flex flex-col w-full gap-3">
+                      <button aria-label="Descargar QR" title="Descargar QR" onClick={downloadQR} className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-2">
                         <Download className="w-5 h-5"/> Descargar QR (.PNG)
                       </button>
-                      <button onClick={() => {
+                      <button aria-label="Imprimir QR" title="Imprimir QR" onClick={() => {
                         const w = window.open();
                         if(w) {
+                           const companyName = qrConfig.company || "HidroJepe";
                            w.document.write(`
                              <html>
-                               <head><title>Imprimir QR</title></head>
-                               <body style="display:flex; justify-content:center; align-items:center; height:100vh;">
+                               <head>
+                                 <title>Imprimir QR</title>
+                                 <meta charset="utf-8">
+                                 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@900&display=swap" rel="stylesheet">
+                               </head>
+                               <body style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family: 'Inter', sans-serif;">
+                                 <h1 style="font-size:36px; font-weight:900; margin-bottom:25px; text-transform:uppercase; color:#065f46; text-align:center; letter-spacing:0.1em;">${companyName}</h1>
                                  <img src="data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(new XMLSerializer().serializeToString(document.getElementById('QRCodeImage')!))))}" style="width:300px; height:300px;" />
-                                 <script>setTimeout(() => { window.print(); window.close(); }, 500);</script>
+                                 <h2 style="font-family: 'Dancing Script', cursive; font-size:55px; margin-top:25px; color:#10b981; margin-bottom:0;">¡Escanéame!</h2>
+                                 <script>setTimeout(() => { window.print(); window.close(); }, 800);</script>
                                </body>
                              </html>
                            `);
