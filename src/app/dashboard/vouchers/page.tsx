@@ -66,9 +66,25 @@ export default function VouchersPage() {
     }
   };
 
-  const handleShareWhatsApp = (voucher: Voucher) => {
-    const text = `Te comparto el comprobante de pago emitido por: ${voucher.name}.`;
-    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+  const handleShareWhatsApp = async (voucher: Voucher) => {
+    try {
+      const response = await fetch(voucher.image);
+      const blob = await response.blob();
+      const file = new File([blob], `Boucher-${voucher.name.replace(/ /g, '_')}.jpg`, { type: 'image/jpeg' });
+      
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: 'Comprobante de Pago',
+          text: `Te comparto el comprobante de pago emitido por: ${voucher.name}`,
+          files: [file]
+        });
+      } else {
+        alert("Tu dispositivo actual no soporta compartir imágenes directamente. Por favor, usa el botón de descarga primero.");
+      }
+    } catch (error) {
+      console.error("Error compartiendo:", error);
+      alert("Hubo un error al intentar abrir WhatsApp con la imagen.");
+    }
   };
 
   return (
@@ -231,7 +247,6 @@ export default function VouchersPage() {
                   <input 
                     type="file" 
                     accept="image/*" 
-                    capture="environment" 
                     ref={fileInputRef} 
                     onChange={handleFileChange} 
                     className="hidden" 
