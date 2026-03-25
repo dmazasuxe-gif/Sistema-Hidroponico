@@ -92,9 +92,9 @@ export default function LabelsAndQRPage() {
       harvest: qrConfig.harvestDate,
       days: qrConfig.days,
       origin: qrConfig.origin,
-      video: qrConfig.videoUrl
+      company: qrConfig.company || 'HidroJepe'
     });
-    return `${baseUrl}/etiqueta?${params.toString()}`;
+    return `${baseUrl}/api/poster?${params.toString()}`;
   };
 
   const filteredBatches = harvestedBatches.filter(b => b.plantName.toLowerCase().includes(search.toLowerCase()));
