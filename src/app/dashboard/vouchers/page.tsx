@@ -37,7 +37,30 @@ export default function VouchersPage() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
+        // Compresión automática de imágenes usando Canvas para evitar error QuotaExceededError en localStorage
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+          
+          // Escalar si es muy grande (máx 1000px ancho)
+          const MAX_WIDTH = 1000;
+          if (width > MAX_WIDTH) {
+            height = height * (MAX_WIDTH / width);
+            width = MAX_WIDTH;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          
+          const ctx = canvas.getContext("2d");
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Comprime a JPEG del 70% de calidad, reduciendo ~10MB a ~120KB
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+          setPreviewImage(compressedDataUrl);
+        };
+        img.src = reader.result as string;
       };
       reader.readAsDataURL(file);
     }
@@ -174,6 +197,7 @@ export default function VouchersPage() {
                   {/* Icono Ojo (Previsualizar) Centrado */}
                   <button
                     onClick={() => setFullscreenVoucher(voucher)}
+                    title="Previsualizar Boucher"
                     className="absolute inset-0 m-auto w-14 h-14 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-black rounded-full transition-all shadow-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 z-10"
                   >
                     <Maximize2 className="w-6 h-6" />
@@ -207,6 +231,7 @@ export default function VouchersPage() {
               </div>
               <button 
                 onClick={() => setFullscreenVoucher(null)} 
+                title="Cerrar pantalla completa"
                 className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/10 hover:bg-blue-600 text-white transition-all backdrop-blur-md"
               >
                 <X className="w-6 h-6" />
@@ -248,6 +273,7 @@ export default function VouchersPage() {
                     type="file" 
                     accept="image/*" 
                     ref={fileInputRef} 
+                    title="Subir archivo boucher"
                     onChange={handleFileChange} 
                     className="hidden" 
                     required={!previewImage}
