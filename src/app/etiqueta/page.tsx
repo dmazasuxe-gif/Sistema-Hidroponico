@@ -51,9 +51,8 @@ function LabelContent() {
       {/* Contenido Principal Ocupando Todo el Medio */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 relative z-20 pb-16">
         
-        {/* Título de la Planta */}
         <h2 className="text-6xl sm:text-7xl md:text-8xl text-center font-black text-white leading-[1] tracking-tighter drop-shadow-2xl mb-8 [font-family:Georgia,serif]">
-          {plantName.replace(' Premium', '')} <br/> <span className="text-emerald-400 font-bold italic drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">Premium</span>
+          {plantName}
         </h2>
 
         {/* Insignia Magnífica de Cosecha */}

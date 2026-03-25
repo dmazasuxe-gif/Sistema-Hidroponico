@@ -13,8 +13,8 @@ const INITIAL_DOSES = [
 ];
 
 export default function NutritionPage() {
-  const [liters, setLiters] = useState<number>(1000);
-  const [maxCapacity, setMaxCapacity] = useState<number>(2500);
+  const [liters, setLiters] = useState<number>(1500);
+  const [maxCapacity, setMaxCapacity] = useState<number>(1500);
   const [plantsCount, setPlantsCount] = useState<number>(800);
   const [doses, setDoses] = useState(INITIAL_DOSES);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -91,17 +91,6 @@ export default function NutritionPage() {
               <h2 className="text-emerald-400 font-bold uppercase tracking-[0.4em] text-xs mt-1">Calculadora de Mezclas</h2>
             </div>
           </div>
-          <p className="text-neutral-400 max-w-lg font-medium text-sm leading-relaxed">Laboratorio de dosificación interactiva. Ajusta el tanque, agrega nuevos químicos químicos y todos los cambios se guardarán solos.</p>
-        </div>
-
-        {/* Logo de la Lechuga Realista */}
-        <div className="relative z-10 w-40 h-40 shrink-0 filter drop-shadow-[0_20px_50px_rgba(34,197,94,0.4)] transition-transform hover:scale-105 duration-700 cursor-pointer">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
-            src="/logo-jepelacio.png" 
-            alt="HidroJepe Logo"
-            className="w-full h-full object-contain drop-shadow-2xl" 
-          />
         </div>
       </motion.div>
 
@@ -187,29 +176,7 @@ export default function NutritionPage() {
             </div>
           </div>
 
-          {/* Indicador de Plantas (Widget Mágico) */}
-          <div className="bg-emerald-500 text-white rounded-[32px] p-8 flex items-center justify-between shadow-[0_20px_50px_rgba(16,185,129,0.3)] relative overflow-hidden group transition-transform duration-500">
-            <div className="absolute -right-10 -top-10 text-emerald-400/30 group-hover:rotate-12 transition-transform duration-700 pointer-events-none">
-              <Leaf className="w-48 h-48" />
-            </div>
-            
-            <div className="relative z-10 w-full">
-              <p className="text-emerald-100 font-black uppercase tracking-widest text-[10px] mb-1">Censo Botánico (Editable)</p>
-              <h3 className="text-3xl font-black mb-4">Plantas Actuales</h3>
-              
-              <div className="flex items-center gap-4 bg-black/20 p-4 rounded-3xl backdrop-blur-lg w-full">
-                <input 
-                   type="number"
-                   aria-label="Plantas Actuales"
-                   title="Plantas Actuales"
-                   placeholder="Cantidad de plantas"
-                   value={plantsCount || ""}
-                   onChange={(e) => setPlantsCount(Number(e.target.value))}
-                   className="bg-transparent text-white font-black text-4xl w-full text-center outline-none focus:text-emerald-200 transition-colors"
-                />
-              </div>
-            </div>
-          </div>
+          {/* Eliminado Widget de Plantas Actuales a pedido del usuario */}
         </motion.div>
 
         {/* Columna Derecha: Calculadora Tabla Editable */}

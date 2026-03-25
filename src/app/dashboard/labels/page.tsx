@@ -118,7 +118,7 @@ export default function LabelsAndQRPage() {
         ctx.fillStyle = "#065f46";
         ctx.font = "bold 28px Inter, Arial, sans-serif";
         ctx.textAlign = "center";
-        const companyName = qrConfig.company || "HidroJepe";
+        const companyName = qrConfig.plantName || "HidroJepe";
         ctx.fillText(companyName.toUpperCase(), canvas.width/2, 60);
 
         // Draw QR
@@ -239,7 +239,7 @@ export default function LabelsAndQRPage() {
                     
                     {/* El Contenedor Imprimible UI */}
                     <div className="bg-white p-6 sm:p-8 rounded-[40px] shadow-xl border-4 border-white flex flex-col items-center justify-center w-full max-w-[320px]">
-                      <h4 className="text-2xl font-black text-emerald-900 mb-6 text-center uppercase tracking-widest leading-tight w-full truncate">{qrConfig.company || "HidroJepe"}</h4>
+                      <h4 className="text-2xl font-black text-emerald-900 mb-6 text-center uppercase tracking-widest leading-tight w-full truncate">{qrConfig.plantName || "HidroJepe"}</h4>
                       <QRCode id="QRCodeImage" value={getPublicUrl()} size={200} fgColor="#065f46" />
                       <p className="mt-6 text-4xl font-bold text-emerald-500 [font-family:Georgia,cursive] italic">¡Escanéame!</p>
                     </div>
@@ -251,7 +251,7 @@ export default function LabelsAndQRPage() {
                       <button aria-label="Imprimir QR" title="Imprimir QR" onClick={() => {
                         const w = window.open();
                         if(w) {
-                           const companyName = qrConfig.company || "HidroJepe";
+                           const companyName = qrConfig.plantName || "HidroJepe";
                            w.document.write(`
                              <html>
                                <head>
