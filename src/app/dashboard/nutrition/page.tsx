@@ -158,6 +158,8 @@ export default function NutritionPage() {
               <div className="flex items-center gap-2 border-b-2 border-cyan-400 pb-1">
                 <input 
                   type="number" 
+                  aria-label="Llenado Actual (Litros)"
+                  title="Llenado Actual en Litros"
                   value={liters || ""} 
                   onChange={handleLitersChange}
                   className="bg-transparent text-white font-black text-5xl text-center w-32 outline-none placeholder-blue-900/50 focus:text-cyan-300 transition-colors"
@@ -172,6 +174,9 @@ export default function NutritionPage() {
                 <div className="flex items-center border-b border-blue-400/50 hover:border-cyan-300 transition-colors group">
                   <input 
                     type="number" 
+                    aria-label="Capacidad Total del Tanque"
+                    title="Capacidad Total"
+                    placeholder="Capacidad Max"
                     value={maxCapacity || ""} 
                     onChange={(e) => setMaxCapacity(parseInt(e.target.value) || 0)} 
                     className="bg-transparent text-right w-16 outline-none text-white focus:text-cyan-300" 
@@ -195,6 +200,9 @@ export default function NutritionPage() {
               <div className="flex items-center gap-4 bg-black/20 p-4 rounded-3xl backdrop-blur-lg w-full">
                 <input 
                    type="number"
+                   aria-label="Plantas Actuales"
+                   title="Plantas Actuales"
+                   placeholder="Cantidad de plantas"
                    value={plantsCount || ""}
                    onChange={(e) => setPlantsCount(Number(e.target.value))}
                    className="bg-transparent text-white font-black text-4xl w-full text-center outline-none focus:text-emerald-200 transition-colors"

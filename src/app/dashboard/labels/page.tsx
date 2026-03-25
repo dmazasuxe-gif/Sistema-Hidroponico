@@ -177,7 +177,7 @@ export default function LabelsAndQRPage() {
             
             <motion.div initial={{ opacity: 0, y: 50, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 20, scale: 0.95 }} className="relative w-full max-w-5xl bg-white dark:bg-neutral-950 rounded-[40px] shadow-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden flex flex-col lg:flex-row h-[90vh] lg:h-auto max-h-[90vh]">
               
-              <button onClick={() => setSelectedBatch(null)} className="absolute top-6 right-6 p-2 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full z-[60] transition-colors"><X className="w-5 h-5" /></button>
+              <button aria-label="Cerrar modal" title="Cerrar modal" onClick={() => setSelectedBatch(null)} className="absolute top-6 right-6 p-2 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full z-[60] transition-colors"><X className="w-5 h-5" /></button>
 
                {/* Panel de Configuración e Información (Izquierda) */}
               <div className="w-full lg:w-1/2 p-8 lg:p-10 overflow-y-auto custom-scrollbar border-b lg:border-b-0 lg:border-r border-neutral-200 dark:border-neutral-800">
@@ -187,25 +187,25 @@ export default function LabelsAndQRPage() {
                  <div className="space-y-6">
                     <div>
                       <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block">Nombre Atractivo del Producto</label>
-                      <input type="text" value={qrConfig.plantName} onChange={(e) => setQrConfig({...qrConfig, plantName: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
+                      <input type="text" aria-label="Nombre del Producto" title="Nombre del Producto" value={qrConfig.plantName} onChange={(e) => setQrConfig({...qrConfig, plantName: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block">Fecha Cosecha</label>
-                        <input type="date" value={qrConfig.harvestDate} onChange={(e) => setQrConfig({...qrConfig, harvestDate: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
+                        <input type="date" aria-label="Fecha Cosecha" title="Fecha Cosecha" value={qrConfig.harvestDate} onChange={(e) => setQrConfig({...qrConfig, harvestDate: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
                       </div>
                       <div>
                         <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block">Días de Cultivo</label>
-                        <input type="number" value={qrConfig.days} onChange={(e) => setQrConfig({...qrConfig, days: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
+                        <input type="number" aria-label="Días de Cultivo" title="Días de Cultivo" value={qrConfig.days} onChange={(e) => setQrConfig({...qrConfig, days: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
                       </div>
                     </div>
                     <div>
                       <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block flex items-center gap-2"><MapPin className="w-4 h-4"/> Origen de la Finca</label>
-                      <input type="text" value={qrConfig.origin} onChange={(e) => setQrConfig({...qrConfig, origin: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
+                      <input type="text" aria-label="Origen de la Finca" title="Origen de la Finca" value={qrConfig.origin} onChange={(e) => setQrConfig({...qrConfig, origin: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
                     </div>
                     <div>
                       <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block flex items-center gap-2"><LinkIcon className="w-4 h-4"/> Enlace del Video (YouTube, TikTok, etc.)</label>
-                      <input type="text" value={qrConfig.videoUrl} onChange={(e) => setQrConfig({...qrConfig, videoUrl: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Ej. https://youtube.com/watch?v=..." />
+                      <input type="text" aria-label="Enlace del Video" title="Enlace del Video" value={qrConfig.videoUrl} onChange={(e) => setQrConfig({...qrConfig, videoUrl: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Ej. https://youtube.com/watch?v=..." />
                     </div>
                  </div>
 

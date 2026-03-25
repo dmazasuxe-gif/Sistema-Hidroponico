@@ -32,7 +32,7 @@ function LabelContent() {
   return (
     <div className="min-h-[100dvh] w-full bg-white sm:bg-neutral-100 flex items-center justify-center sm:p-4 antialiased selection:bg-emerald-500 selection:text-white relative">
       {/* Dynamic blurred background to look like a premium app (only obvious on wider screens) */}
-      <div className="hidden sm:block absolute inset-0 z-0 bg-cover bg-center opacity-30 blur-2xl transform scale-125" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1628157588553-5eeea00af15c?q=80&w=1000&auto=format&fit=crop")' }} />
+      <div className="hidden sm:block absolute inset-0 z-0 bg-cover bg-center opacity-30 blur-2xl transform scale-125 bg-[url('https://images.unsplash.com/photo-1628157588553-5eeea00af15c?q=80&w=1000&auto=format&fit=crop')]" />
       <div className="hidden sm:block absolute inset-0 z-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
 
       {/* Main Label Card (Fullscreen on mobile, card on desktop) */}
@@ -58,14 +58,14 @@ function LabelContent() {
         </div>
 
         {/* Product Title */}
-        <h2 className="text-4xl font-black text-emerald-900 mt-4 sm:mt-10 leading-[1.1] tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
+        <h2 className="text-4xl font-black text-emerald-900 mt-4 sm:mt-10 leading-[1.1] tracking-tight [font-family:Georgia,serif]">
           {plantName.replace(' Premium', '')} <br/> <span className="text-emerald-700 font-bold italic">Premium</span>
         </h2>
 
         {/* Huge Emerald Badge Context */}
         <div className="relative mt-8 mb-6 group cursor-default">
            <div className="absolute inset-0 bg-emerald-500 rounded-full blur-xl opacity-40 group-hover:opacity-60 transition-opacity" />
-           <div className="relative w-36 h-36 mx-auto bg-gradient-to-b from-emerald-400 to-emerald-600 rounded-[30%] shadow-[0_15px_25px_rgba(16,185,129,0.5)] border-[4px] border-white flex flex-col items-center justify-center text-white transform rotate-3 hover:scale-105 transition-transform" style={{ borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%' }}>
+           <div className="relative w-36 h-36 mx-auto bg-gradient-to-b from-emerald-400 to-emerald-600 shadow-[0_15px_25px_rgba(16,185,129,0.5)] border-[4px] border-white flex flex-col items-center justify-center text-white transform rotate-3 hover:scale-105 transition-transform [border-radius:40%_60%_70%_30%_/_40%_50%_60%_50%]">
               <span className="text-[10px] font-black uppercase tracking-widest opacity-90">Cosechada</span>
               <span className="text-4xl font-black leading-none drop-shadow-md my-1">{formattedDay}</span>
               <span className="text-[11px] font-black tracking-widest opacity-90">{formattedMonthYear}</span>
