@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { MapPin, CalendarDays, FlaskConical, Sprout, PlayCircle } from 'lucide-react';
+import { MapPin, CalendarDays, FlaskConical, Sprout, PlayCircle, Loader2 } from 'lucide-react';
 
-export default function LabelPreviewPage() {
+function LabelContent() {
   const searchParams = useSearchParams();
   const [logo, setLogo] = useState<string | null>(null);
 
@@ -107,5 +107,13 @@ export default function LabelPreviewPage() {
       </div>
 
     </div>
+  );
+}
+
+export default function LabelPreviewPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-neutral-100 text-neutral-400"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+      <LabelContent />
+    </Suspense>
   );
 }
