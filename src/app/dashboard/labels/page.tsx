@@ -42,14 +42,10 @@ export default function LabelsAndQRPage() {
     harvestDate: '',
     days: '',
     origin: 'Granja Local, Ciudad',
-    company: 'Hidroponía Avanzada',
+    videoUrl: '',
   });
 
   useEffect(() => {
-    // Cargar nombre de empresa
-    const savedName = localStorage.getItem('businessName');
-    if (savedName) setQrConfig(prev => ({ ...prev, company: savedName }));
-
     const savedBatches = localStorage.getItem('lettuce_batches');
     if (savedBatches) {
       const all: LettuceBatch[] = JSON.parse(savedBatches);
@@ -86,7 +82,7 @@ export default function LabelsAndQRPage() {
       harvest: qrConfig.harvestDate,
       days: qrConfig.days,
       origin: qrConfig.origin,
-      company: qrConfig.company
+      video: qrConfig.videoUrl
     });
     return `${baseUrl}/etiqueta?${params.toString()}`;
   };
@@ -208,8 +204,8 @@ export default function LabelsAndQRPage() {
                       <input type="text" value={qrConfig.origin} onChange={(e) => setQrConfig({...qrConfig, origin: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block flex items-center gap-2"><Leaf className="w-4 h-4"/> Empresa Productora</label>
-                      <input type="text" value={qrConfig.company} onChange={(e) => setQrConfig({...qrConfig, company: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" />
+                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2 block flex items-center gap-2"><LinkIcon className="w-4 h-4"/> Enlace del Video (YouTube, TikTok, etc.)</label>
+                      <input type="text" value={qrConfig.videoUrl} onChange={(e) => setQrConfig({...qrConfig, videoUrl: e.target.value})} className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Ej. https://youtube.com/watch?v=..." />
                     </div>
                  </div>
 

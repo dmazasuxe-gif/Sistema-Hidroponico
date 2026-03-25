@@ -17,7 +17,7 @@ function LabelContent() {
 
   const days = searchParams?.get('days') || '45';
   const origin = searchParams?.get('origin') || 'Granja Local';
-  const company = searchParams?.get('company') || 'Hidroponía Avanzada';
+  const videoUrl = searchParams?.get('video') || '';
 
   useEffect(() => {
     // Attempt to grab local logo if scanned on owner's device
@@ -30,16 +30,16 @@ function LabelContent() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-neutral-100 flex items-center justify-center p-4 antialiased selection:bg-emerald-500 selection:text-white pb-20 overflow-hidden relative">
-      {/* Dynamic blurred background to look like a premium app */}
-      <div className="absolute inset-0 z-0 bg-cover bg-center opacity-30 blur-2xl transform scale-125" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1628157588553-5eeea00af15c?q=80&w=1000&auto=format&fit=crop")' }} />
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
+    <div className="min-h-[100dvh] w-full bg-white sm:bg-neutral-100 flex items-center justify-center sm:p-4 antialiased selection:bg-emerald-500 selection:text-white relative">
+      {/* Dynamic blurred background to look like a premium app (only obvious on wider screens) */}
+      <div className="hidden sm:block absolute inset-0 z-0 bg-cover bg-center opacity-30 blur-2xl transform scale-125" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1628157588553-5eeea00af15c?q=80&w=1000&auto=format&fit=crop")' }} />
+      <div className="hidden sm:block absolute inset-0 z-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
 
-      {/* Main Label Card */}
-      <div className="relative z-10 w-full max-w-sm bg-white rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] pb-8 pt-20 px-6 mt-16 text-center border-b-[8px] border-emerald-500 overflow-visible flex flex-col items-center">
+      {/* Main Label Card (Fullscreen on mobile, card on desktop) */}
+      <div className="relative z-10 w-full min-h-[100dvh] sm:min-h-0 sm:max-w-sm bg-white sm:rounded-[40px] shadow-none sm:shadow-[0_30px_60px_rgba(0,0,0,0.15)] pb-8 pt-24 px-6 text-center border-b-[8px] border-emerald-500 flex flex-col items-center justify-start overflow-y-auto custom-scrollbar">
         
         {/* Metallic Hanging Plaque for Logo */}
-        <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[85%] bg-gradient-to-b from-neutral-200 via-neutral-100 to-neutral-300 rounded-xl shadow-[0_15px_30px_rgba(0,0,0,0.2)] border-2 border-white p-4 flex flex-col items-center justify-center min-h-[120px]">
+        <div className="absolute top-0 sm:-top-12 left-1/2 -translate-x-1/2 w-full sm:w-[85%] bg-gradient-to-b from-neutral-200 via-neutral-100 to-neutral-300 sm:rounded-xl shadow-[0_15px_30px_rgba(0,0,0,0.1)] border-b-2 sm:border-2 border-white p-4 flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] rounded-b-3xl">
           {/* Rivets */}
           <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-neutral-300 to-neutral-500 shadow-inner" />
           <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-neutral-300 to-neutral-500 shadow-inner" />
@@ -49,9 +49,9 @@ function LabelContent() {
           {logo ? (
             <img src={logo} alt="Company Logo" className="max-w-[150px] max-h-[80px] object-contain drop-shadow-md" />
           ) : (
-             <div className="flex flex-col items-center">
+             <div className="flex flex-col items-center mt-2">
                <span className="text-4xl filter drop-shadow-md">🥬</span>
-               <h1 className="text-2xl font-black text-emerald-800 tracking-tighter drop-shadow-sm leading-tight mt-1">{company}</h1>
+               <h1 className="text-2xl font-black text-emerald-800 tracking-tighter drop-shadow-sm leading-tight mt-1">HidroJepe</h1>
                <p className="text-[8px] uppercase tracking-widest text-emerald-600/80 font-bold">Cultivos Hidropónicos</p>
              </div>
           )}
@@ -100,10 +100,17 @@ function LabelContent() {
         </div>
 
         {/* Call to Action Button */}
-        <button className="w-full py-4 bg-[#0a66c2] hover:bg-[#004182] text-white rounded-2xl font-black shadow-lg shadow-blue-500/30 flex flex-col items-center justify-center gap-1 transition-all hover:scale-[1.02]">
-           <span className="text-[9px] uppercase tracking-widest opacity-90 mx-auto">¿Quieres ver cómo la cultivamos?</span>
-           <span className="flex items-center gap-2 text-base">VER VIDEO DEL VIVERO <PlayCircle className="w-5 h-5 fill-white text-[#0a66c2]" /></span>
-        </button>
+        {videoUrl && (
+          <a 
+            href={videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full mt-auto py-4 bg-[#0a66c2] hover:bg-[#004182] text-white rounded-2xl font-black shadow-lg shadow-blue-500/30 flex flex-col items-center justify-center gap-1 transition-all hover:scale-[1.02] active:scale-95"
+          >
+             <span className="text-[9px] uppercase tracking-widest opacity-90 mx-auto">¿Quieres ver cómo la cultivamos?</span>
+             <span className="flex items-center gap-2 text-base">VER VIDEO DEL VIVERO <PlayCircle className="w-5 h-5 fill-white text-[#0a66c2]" /></span>
+          </a>
+        )}
       </div>
 
     </div>
