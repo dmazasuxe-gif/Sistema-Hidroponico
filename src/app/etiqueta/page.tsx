@@ -36,10 +36,10 @@ function LabelContent() {
       <div className="hidden sm:block absolute inset-0 z-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
 
       {/* Main Label Card (Fullscreen on mobile, card on desktop) */}
-      <div className="relative z-10 w-full min-h-[100dvh] sm:min-h-0 sm:max-w-sm bg-white sm:rounded-[40px] shadow-none sm:shadow-[0_30px_60px_rgba(0,0,0,0.15)] pb-8 pt-24 px-6 text-center border-b-[8px] border-emerald-500 flex flex-col items-center justify-start overflow-y-auto custom-scrollbar">
+      <div className="relative z-10 w-full min-h-[100dvh] sm:min-h-0 sm:max-w-sm bg-white sm:rounded-[40px] shadow-none sm:shadow-[0_30px_60px_rgba(0,0,0,0.15)] pb-8 pt-0 sm:pt-24 px-4 sm:px-6 text-center border-b-[8px] border-emerald-500 flex flex-col items-center justify-start overflow-y-auto custom-scrollbar">
         
         {/* Metallic Hanging Plaque for Logo */}
-        <div className="absolute top-0 sm:-top-12 left-1/2 -translate-x-1/2 w-full sm:w-[85%] bg-gradient-to-b from-neutral-200 via-neutral-100 to-neutral-300 sm:rounded-xl shadow-[0_15px_30px_rgba(0,0,0,0.1)] border-b-2 sm:border-2 border-white p-4 flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] rounded-b-3xl">
+        <div className="relative sm:absolute top-0 sm:-top-12 sm:left-1/2 sm:-translate-x-1/2 w-full sm:w-[85%] bg-gradient-to-b from-neutral-200 via-neutral-100 to-neutral-300 sm:rounded-xl shadow-md sm:shadow-[0_15px_30px_rgba(0,0,0,0.1)] border-b-4 sm:border-2 border-neutral-300 sm:border-white p-4 flex flex-col items-center justify-center min-h-[120px] rounded-b-[40px] sm:rounded-b-3xl shrink-0 z-20 mb-6 sm:mb-0">
           {/* Rivets */}
           <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-neutral-300 to-neutral-500 shadow-inner" />
           <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-neutral-300 to-neutral-500 shadow-inner" />
@@ -58,7 +58,7 @@ function LabelContent() {
         </div>
 
         {/* Product Title */}
-        <h2 className="text-4xl font-black text-emerald-900 mt-10 leading-[1.1] tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
+        <h2 className="text-4xl font-black text-emerald-900 mt-4 sm:mt-10 leading-[1.1] tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
           {plantName.replace(' Premium', '')} <br/> <span className="text-emerald-700 font-bold italic">Premium</span>
         </h2>
 
