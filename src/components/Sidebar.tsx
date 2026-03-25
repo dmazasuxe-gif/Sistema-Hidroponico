@@ -37,7 +37,7 @@ const navItems = [
   { name: 'Clientes', href: '/dashboard/clients', icon: User },
   { name: 'Gastos', href: '/dashboard/expenses', icon: Receipt },
   { name: 'Automatización', href: '/dashboard/automation', icon: Zap },
-  { name: 'Cámaras Seguridad', href: '/dashboard/cameras', icon: Camera },
+  { name: 'Bouchers', href: '/dashboard/vouchers', icon: Camera },
   { name: 'Empresa', href: '/dashboard/company', icon: Settings2 },
 ];
 
