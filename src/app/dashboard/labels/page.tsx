@@ -94,7 +94,7 @@ export default function LabelsAndQRPage() {
       origin: qrConfig.origin,
       company: qrConfig.company || 'HidroJepe'
     });
-    return `${baseUrl}/api/poster?${params.toString()}`;
+    return `${baseUrl}/etiqueta?${params.toString()}`;
   };
 
   const filteredBatches = harvestedBatches.filter(b => b.plantName.toLowerCase().includes(search.toLowerCase()));
@@ -289,7 +289,7 @@ export default function LabelsAndQRPage() {
                    {/* Notch */}
                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-neutral-900/10 dark:bg-neutral-800 rounded-b-3xl z-20 backdrop-blur-md" />
                    
-                   <img src={getPublicUrl()} alt="Vista Previa de Etiqueta Inteligente" className="w-full h-full object-contain bg-[#0A3D2E]" />
+                   <iframe src={getPublicUrl()} title="Vista Previa de Etiqueta Inteligente" className="w-full h-full border-none bg-[#093524]" />
                  </div>
               </div>
 

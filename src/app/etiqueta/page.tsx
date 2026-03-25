@@ -8,15 +8,20 @@ function LabelContent() {
   const searchParams = useSearchParams();
   const [logo, setLogo] = useState<string | null>(null);
 
-  const plantName = searchParams?.get('plant') || 'Lechuga Premium';
+  const plantName = searchParams?.get('plant') || 'LECHUGA ROMANA';
   const harvestDate = searchParams?.get('harvest') || 'HOY';
-  // Attempt to parse out '15 MAY 2026' from the format '2026-05-15'
+  const company = searchParams?.get('company') || 'HIDROJEPE';
+  
   const dateObj = new Date(harvestDate);
-  const formattedDay = isNaN(dateObj.getTime()) ? harvestDate : dateObj.getDate();
+  const formattedDay = isNaN(dateObj.getTime()) ? harvestDate : dateObj.getDate().toString();
   const formattedMonthYear = isNaN(dateObj.getTime()) ? '' : `${dateObj.toLocaleString('es-ES', { month: 'long' }).toUpperCase()} ${dateObj.getFullYear()}`;
 
   const days = searchParams?.get('days') || '45';
-  const origin = searchParams?.get('origin') || 'Granja Local';
+  const origin = searchParams?.get('origin') || 'Jepelacio Moyobamba';
+  
+  const originParts = origin.split(' ');
+  const originLine1 = originParts[0] || 'Jepelacio';
+  const originLine2 = originParts[1] || 'Moyobamba';
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -28,74 +33,98 @@ function LabelContent() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] w-full flex flex-col antialiased selection:bg-emerald-500 selection:text-white relative bg-emerald-950 font-sans">
+    <div className="min-h-[100dvh] w-full flex items-center justify-center bg-[#000] font-sans selection:bg-emerald-500 selection:text-white p-2 sm:p-4 perspective-[1000px]">
       
-      {/* Fondo de Verduras Reales (Alta Resolución) */}
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1629828551600-47b2c9397637?q=80&w=1600&auto=format&fit=crop')]" />
-      {/* Degrado Verde premium con Blur sutil */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-emerald-950 via-emerald-900/50 to-emerald-900/90 backdrop-blur-[4px]" />
-
-      {/* Banner de Empresa o Logotipo (Superior) -> Letra Grande, Espaciado Masivo */}
-      <div className="w-full flex flex-col items-center justify-center pt-16 pb-8 relative z-20">
-        {logo ? (
-          <img src={logo} alt="Company Logo" className="max-w-[280px] max-h-[140px] md:max-w-[350px] object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)]" />
-        ) : (
-           <div className="flex flex-col items-center">
-             <span className="text-7xl filter drop-shadow-2xl">🥬</span>
-             <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-lg leading-none mt-2">HidroJepe</h1>
-             <p className="text-sm md:text-base uppercase tracking-[0.3em] text-emerald-300 font-bold mt-2 drop-shadow-md">Cultivos Frescos</p>
-           </div>
-        )}
-      </div>
-
-      {/* Contenido Principal Ocupando Todo el Medio */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 relative z-20 pb-16">
+      {/* Marco Exterior del Póster (estilo iPhone Aspect Ratio) */}
+      <div className="w-full max-w-[550px] flex flex-col justify-between relative bg-gradient-to-b from-[#083626] to-[#041d14] rounded-[30px] sm:rounded-[40px] shadow-2xl overflow-hidden aspect-[9/16] p-4 sm:p-6 pb-8 border border-white/10">
         
-        <h2 className="text-6xl sm:text-7xl md:text-8xl text-center font-black text-white leading-[1] tracking-tighter drop-shadow-2xl mb-8 [font-family:Georgia,serif]">
-          {plantName}
-        </h2>
+        {/* Bordes Plateados Interiores Simulados */}
+        <div className="absolute inset-0 m-2 sm:m-4 border-[4px] border-[#9baea4] rounded-[24px] pointer-events-none shadow-[0_0_15px_rgba(0,0,0,0.5)]" />
+        <div className="absolute inset-0 m-[16px] sm:m-[24px] border-[1px] border-[#657d72] rounded-[20px] pointer-events-none" />
 
-        {/* Insignia Magnífica de Cosecha */}
-        <div className="relative my-8 sm:my-12">
-           <div className="absolute inset-0 bg-emerald-400 rounded-full blur-[40px] opacity-40 animate-pulse" />
-           <div className="relative w-56 h-56 sm:w-64 sm:h-64 mx-auto bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 shadow-[0_25px_50px_rgba(0,0,0,0.6)] border-[8px] border-emerald-100 flex flex-col items-center justify-center text-white transform rotate-2 [border-radius:40%_60%_70%_30%_/_40%_50%_60%_50%] backdrop-blur-md">
-              <span className="text-sm sm:text-base font-black uppercase tracking-widest opacity-95 drop-shadow-md">Cosechada El</span>
-              <span className="text-7xl sm:text-8xl font-black leading-none drop-shadow-xl my-1">{formattedDay}</span>
-              <span className="text-lg sm:text-xl font-black tracking-widest opacity-95 drop-shadow-md">{formattedMonthYear}</span>
+        {/* --- HEADER --- */}
+        <div className="flex flex-col items-center mt-6 sm:mt-10 relative z-10 w-full px-6 text-center">
+            {/* Logo de la Planta */}
+            {logo ? (
+              <img src={logo} alt="Company Logo" className="w-16 h-16 sm:w-24 sm:h-24 object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)] mb-2" />
+            ) : (
+              <img 
+                src="https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/512/emoji_u1f96c.png" 
+                alt="Lettuce Logo"
+                className="w-16 h-16 sm:w-24 sm:h-24 object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)] mb-2" 
+              />
+            )}
+            
+            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-[0.2em] sm:tracking-[0.25em] uppercase leading-none mt-2 drop-shadow-md">
+              {company}
+            </h1>
+            <p className="text-[#65ce90] text-[8px] sm:text-xs font-bold uppercase tracking-[0.4em] mt-3">Cultivos Frescos</p>
+        </div>
+
+        {/* --- TITULO PRINCIPAL --- */}
+        <div className="flex flex-col items-center mt-4 sm:mt-8 relative z-10 w-full text-center">
+            <h2 className="text-4xl sm:text-6xl font-black text-white uppercase tracking-tight drop-shadow-lg leading-none mb-1 sm:mb-3">
+              {plantName.replace(' Premium', '')}
+            </h2>
+            <p className="text-[#e2e8f0] text-lg sm:text-2xl italic font-serif tracking-widest drop-shadow-sm opacity-90">
+               Premium Selection
+            </p>
+        </div>
+
+        {/* --- MEDALLÓN CIRCULAR GIGANTE --- */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center my-4 sm:my-6 scale-[0.9] sm:scale-100">
+           <div className="relative flex items-center justify-center w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] rounded-full bg-gradient-to-br from-[#dfe4e1] to-[#99a7a0] shadow-[0_25px_40px_rgba(0,0,0,0.8)] border-[2px] border-white/30 p-[12px] sm:p-[16px]">
+               {/* Centro del Medallón */}
+               <div className="w-full h-full rounded-full bg-gradient-to-b from-[#2aa686] to-[#156a52] shadow-[inset_0_15px_25px_rgba(0,0,0,0.5)] border border-[#0d3629] flex flex-col items-center justify-center p-4">
+                  
+                  <span className="text-[#a7f3d0] text-[10px] sm:text-sm font-bold uppercase tracking-[0.3em] opacity-90 mb-0 sm:mb-1">Cosechada El</span>
+                  
+                  <span className="text-[100px] sm:text-[140px] font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-[#e2e8f0] to-[#b0b8c0] leading-[0.8] tracking-tighter drop-shadow-[0px_8px_12px_rgba(0,0,0,0.6)]">
+                    {formattedDay}
+                  </span>
+                  
+                  <span className="text-white text-[12px] sm:text-lg font-bold uppercase tracking-[0.2em] mt-2 sm:mt-4 drop-shadow-lg">{formattedMonthYear}</span>
+                  
+               </div>
            </div>
         </div>
 
-        {/* Cajas de Datos GIGANTES Ocupando el Ancho Abajo */}
-        <div className="w-full max-w-2xl grid grid-cols-3 gap-3 md:gap-6 mt-6 pb-6">
-           
-           {/* Origen */}
-           <div className="flex flex-col items-center text-center bg-black/30 backdrop-blur-md border border-white/10 rounded-[30px] p-6 shadow-xl">
-             <div className="w-14 h-14 mb-4 rounded-2xl bg-white/10 text-emerald-300 flex items-center justify-center shadow-inner">
-               <MapPin className="w-8 h-8" />
-             </div>
-             <p className="text-xs sm:text-sm font-bold text-white/70 uppercase tracking-widest leading-relaxed mb-1">Origen</p>
-             <p className="text-lg sm:text-xl font-black text-white">{origin}</p>
-           </div>
-           
-           {/* Dias */}
-           <div className="flex flex-col items-center text-center bg-black/30 backdrop-blur-md border border-white/10 rounded-[30px] p-6 shadow-xl">
-             <div className="w-14 h-14 mb-4 rounded-2xl bg-white/10 text-emerald-300 flex items-center justify-center shadow-inner">
-               <CalendarDays className="w-8 h-8" />
-             </div>
-             <p className="text-xs sm:text-sm font-bold text-white/70 uppercase tracking-widest leading-relaxed mb-1">Cultivo</p>
-             <p className="text-lg sm:text-xl font-black text-white">{days} días</p>
-           </div>
+        {/* --- FOOTER INFORMATIVO --- */}
+        <div className="relative z-10 flex flex-col items-center w-full px-4 sm:px-10 mb-2 sm:mb-6">
+            <hr className="w-[90%] border-t-[1.5px] border-[#657d72] mb-6 sm:mb-8 shadow-[0_2px_4px_rgba(0,0,0,0.3)] opacity-60" />
+            
+            <div className="grid grid-cols-3 gap-1 sm:gap-3 w-[95%] text-center">
+               
+               {/* Col 1 */}
+               <div className="flex flex-col items-center px-1">
+                 <div className="flex items-center gap-1 sm:gap-2 mb-2 sm:mb-3">
+                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#86e2a9] opacity-80" strokeWidth={1.5} />
+                   <span className="text-[#86e2a9] text-[8px] sm:text-[10px] font-bold tracking-widest leading-none">ORIGEN:</span>
+                 </div>
+                 <span className="text-white text-xs sm:text-[17px] leading-tight font-medium opacity-90">{originLine1}<br/>{originLine2}</span>
+               </div>
+               
+               {/* Col 2 */}
+               <div className="flex flex-col items-center px-1">
+                 <div className="flex items-center gap-1 sm:gap-2 mb-2 sm:mb-3">
+                   <CalendarDays className="w-4 h-4 sm:w-5 sm:h-5 text-[#86e2a9] opacity-80" strokeWidth={1.5} />
+                   <span className="text-[#86e2a9] text-[8px] sm:text-[10px] font-bold tracking-widest leading-none">CULTIVO:</span>
+                 </div>
+                 <span className="text-white text-xs sm:text-[17px] leading-tight font-medium opacity-90">{days} días<br/>(FRESCA)</span>
+               </div>
 
-           {/* Nutricion */}
-           <div className="flex flex-col items-center text-center bg-black/30 backdrop-blur-md border border-white/10 rounded-[30px] p-6 shadow-xl">
-             <div className="w-14 h-14 mb-4 rounded-2xl bg-white/10 text-emerald-300 flex items-center justify-center shadow-inner">
-               <FlaskConical className="w-8 h-8" />
-             </div>
-             <p className="text-xs sm:text-sm font-bold text-white/70 uppercase tracking-widest leading-relaxed mb-1">Nutrición</p>
-             <p className="text-lg sm:text-xl font-black text-white">100% Pura</p>
-           </div>
-           
+               {/* Col 3 */}
+               <div className="flex flex-col items-center px-1">
+                 <div className="flex items-center gap-1 sm:gap-2 mb-2 sm:mb-3">
+                   <FlaskConical className="w-4 h-4 sm:w-5 sm:h-5 text-[#86e2a9] opacity-80" strokeWidth={1.5} />
+                   <span className="text-[#86e2a9] text-[8px] sm:text-[10px] font-bold tracking-widest leading-none">NUTRICIÓN:</span>
+                 </div>
+                 <span className="text-white text-xs sm:text-[17px] leading-tight font-medium mt-1 sm:mt-2 opacity-90">100% Pura</span>
+               </div>
+
+            </div>
         </div>
+
       </div>
     </div>
   );
